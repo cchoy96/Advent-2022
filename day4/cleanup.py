@@ -7,6 +7,7 @@ __author__ = "Chris Choy"
 assert(len(sys.argv) == 2) # python3 dN.py input.txt
 
 with open(sys.argv[1],'r') as f:
+    count = 0
     for l in f.readlines():
         l = l.strip()
-    print("Part1:")
+    print("Part1:",count)
