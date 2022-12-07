@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""https://adventofcode.com/2022/day/6"""
+"""https://adventofcode.com/2022/day/8"""
 import sys
 __author__ = "Chris Choy"
 
