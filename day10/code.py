@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""https://adventofcode.com/2022/day/#"""
+"""https://adventofcode.com/2022/day/10"""
 import os,sys
 from pathlib import Path
 __author__ = "Chris Choy"
