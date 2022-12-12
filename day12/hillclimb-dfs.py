@@ -84,4 +84,4 @@ class Solution:
 
 #####
 print(Solution(example).answer() == 31)
-print(Solution(problem).answer())
+# print(Solution(problem).answer())
