@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """https://adventofcode.com/2022/day/11"""
-import os,sys,operator
+import os,sys,operator,math
 from pathlib import Path
 __author__ = "Chris Choy"
 
@@ -32,18 +32,23 @@ class Monkey:
         else:
             self.inspect = lambda x: OPS[oper](x,int(val))
         # Test
-        divby = int(src[3].split(' ')[-1])
+        self.divby = int(src[3].split(' ')[-1])
         t1 = int(src[4].split(' ')[-1])
         t2 = int(src[5].split(' ')[-1])
-        self.throw = lambda x: t1 if (x % divby) == 0 else t2
+        self.throw = lambda x: t1 if (x % self.divby) == 0 else t2
 
         self.inspected = 0
+        self.lcm = 1
+
+    def set_lcm(self, lcm):
+        self.lcm = lcm
 
     def takeTurn(self):
         thrown = []
         while len(self.items) != 0:
             item = self.items.pop(0)
-            worry = int(self.inspect(item) / 3)
+            # worry = int(self.inspect(item) / 3) # part 1
+            worry = int(self.inspect(item) % self.lcm) # part 2
             self.inspected += 1
             target = self.throw(worry)
             thrown.append((target, worry))
@@ -75,19 +80,27 @@ class Solution:
                     monkeys_src[-1].append(l)
         
         self.monkeys = []
+        divs = []
         for src in monkeys_src:
-            self.monkeys.append(Monkey(src))
-            print(self.monkeys[-1])
+            m = Monkey(src)
+            self.monkeys.append(m)
+            divs.append(m.divby)
+            # print(self.monkeys[-1])
+        
+        lcm = math.lcm(*divs)
+        for m in self.monkeys:
+            m.set_lcm(lcm)
 
     def answer(self):
-        for _ in range(20):
+        for round in range(10_000):
+            print(round)
             for monkey in self.monkeys:
                 # print(monkey.id, monkey.items)
                 thrown = monkey.takeTurn()
                 # print(monkey.id, thrown)
                 for target,worry in thrown:
                     self.monkeys[target].giveItem(worry)
-            print([m.held() for m in self.monkeys])
+            # print([m.held() for m in self.monkeys])
         
         inspected = [m.inspected for m in self.monkeys]
         most = max(inspected)
@@ -97,4 +110,5 @@ class Solution:
 
 #####
 # print(Solution(example).answer() == 10605)
+print(Solution(example).answer() == 2713310158)
 print(Solution(problem).answer())
